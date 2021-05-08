@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "codSKU": 13484689,
+      "name": "Doce de leite",
+      "category": "Doce",
+      "price": "20,00"
+    },
+    {
+      "codSKU": 52284682,
+      "name": "Iogurte de morango",
+      "category": "Iogurte",
+      "price": "15,50"
+    },
+    {
+      "codSKU": 98484681,
+      "name": "Leite desnatado",
+      "category": "Leite",
+      "price": "8,00"
+    }
+  ]
+}
