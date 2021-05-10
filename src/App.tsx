@@ -1,14 +1,15 @@
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ProductsProvider } from './hooks/useProducts';
 
 import Routes from './routes';
 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      <ProductsProvider>
         <Routes />
-      </Router>
-    </>
+      </ProductsProvider>
+    </Router>
   );
 }
 

@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { TextField, Button, makeStyles } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
@@ -17,8 +18,13 @@ const useStyles = makeStyles({
   }
 });
 
+interface ITextFieldProps {
+  filterText: string;
+  onFilter: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClear: () => void;
+}
 
-export function Filter() {
+export function Filter({ filterText, onFilter, onClear }: ITextFieldProps) {
   const classes = useStyles();
 
   return (
@@ -29,6 +35,8 @@ export function Filter() {
         placeholder="Busque pelo nome"
         className={classes.input}
         variant="outlined"
+        value={filterText}
+        onChange={onFilter}
       />
       <Button
         variant="contained"
@@ -36,6 +44,7 @@ export function Filter() {
         startIcon={<Close />}
         size="small"
         className={classes.closeButton}
+        onClick={onClear}
       />
     </>
   );

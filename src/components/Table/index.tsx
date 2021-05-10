@@ -1,28 +1,12 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
+import { useProducts } from "../../hooks/useProducts";
 import DataTable from "react-data-table-component";
 import { Button, IconButton, Card, makeStyles } from "@material-ui/core";
-import { Add, Edit, Delete } from "@material-ui/icons";
+import { Add, Delete } from "@material-ui/icons";
 import { IProduct } from "../../types";
 
 import { Filter } from "../../components/Filter";
 import { ModalAddProduct } from "../../components/ModalAddProduct";
-import { ModalEditProduct } from "../../components/ModalEditProduct";
-
-
-const data: IProduct[] = [
-  {
-    codSKU: 13484689,
-    name: "Doce de leite",
-    category: "Doce",
-    price: "20,00"
-  },
-  {
-    codSKU: 52284682,
-    name: "Iogurte de morango",
-    category: "Iogurte",
-    price: "15,50"
-  }
-];
 
 const useStyles = makeStyles({
   card: {
@@ -32,9 +16,32 @@ const useStyles = makeStyles({
 })
 
 export function TableData() {
+  const { products, removeProduct } = useProducts();
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [filterText, setFilterText] = useState("");
+
   const classes = useStyles();
+
+  const filteredItems = products.filter((item) =>
+    item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const handleDeleteClicked = (row: IProduct) => {
+    removeProduct(row.id);
+  };
+
+  function handleFilter(event: ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+
+    setFilterText(event.target.value);
+  }
+
+  const handleClear = () => {
+    if (filterText) {
+      setFilterText("");
+    }
+  };
 
   const columns = [
     {
@@ -59,12 +66,9 @@ export function TableData() {
     },
     {
       name: "Ações",
-      cell: () => (
+      cell: (row: IProduct) => (
         <>
-          <IconButton color="primary" onClick={toggleEditModal}>
-            <Edit />
-          </IconButton>
-          <IconButton color="secondary">
+          <IconButton color="secondary" onClick={() => handleDeleteClicked(row)}>
             <Delete />
           </IconButton>
         </>
@@ -77,10 +81,6 @@ export function TableData() {
     setModalOpen(!modalOpen);
   };
 
-  const toggleEditModal = () => {
-    setEditModalOpen(!editModalOpen);
-  };
-
   const actions = (
     <Button onClick={toggleModal} variant="contained" color="primary" startIcon={<Add />} size="medium">
       Novo produto
@@ -89,13 +89,17 @@ export function TableData() {
 
   return (
     <>
-      <Filter />
+      <Filter
+        onFilter={handleFilter}
+        onClear={handleClear}
+        filterText={filterText}
+      />
       <Card className={classes.card}>
         <DataTable
           title=""
           columns={columns}
-          data={data}
-          keyField="codSKU"
+          data={filteredItems}
+          keyField="id"
           actions={actions}
           pagination
           defaultSortField="name"
@@ -103,7 +107,6 @@ export function TableData() {
       </Card>
 
       <ModalAddProduct isOpen={modalOpen} setIsOpen={toggleModal} />
-      <ModalEditProduct isOpen={editModalOpen} setIsOpen={toggleEditModal} />
     </>
   );
 }

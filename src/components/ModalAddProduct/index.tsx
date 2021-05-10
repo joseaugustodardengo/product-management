@@ -11,6 +11,7 @@ import {
 import { Alert } from "@material-ui/lab";
 import { useForm, Controller } from "react-hook-form";
 import { IProduct } from "../../types";
+import { useProducts } from "../../hooks/useProducts";
 
 interface IModalAddProductProps {
   setIsOpen: () => void;
@@ -53,16 +54,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ModalAddProduct({ isOpen, setIsOpen }: IModalAddProductProps) {
+  const { addProduct } = useProducts();
   const styles = useStyles();
 
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<IProduct>();
 
   const onSubmit = (data: IProduct) => {
-    console.log(data);
+    addProduct(data);
+    setIsOpen();
+    reset();
   };
 
   const body = (
