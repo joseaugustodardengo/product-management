@@ -8,7 +8,7 @@
 <h2 id="layout"> 🎨 Layout </h2>
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="DtMoney" title="#DtMoney" src="./assets/image-gallery.png" />
+  <img alt="DtMoney" title="#DtMoney" src="./assets/product-management.png" />
 </p>
 
 <h2 id="como-executar-o-projeto"> 🚀 Como executar o projeto </h2>
