@@ -1,11 +1,15 @@
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ProductsProvider } from './hooks/useProducts';
+
+import Routes from './routes';
+
 function App() {
   return (
-    <div>
-      <h1>
-        Product Management
-      </h1>
-
-    </div>
+    <Router>
+      <ProductsProvider>
+        <Routes />
+      </ProductsProvider>
+    </Router>
   );
 }
 
